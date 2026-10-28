@@ -58,8 +58,7 @@
 │   ├── ui-font.otf            # 项目默认字体：Noto Sans SC 子集（315 个码位，约 50KB）
 │   └── LICENSE.txt            # 该字体的 SIL OFL 1.1 全文与出处（代码本身仍是 MIT）
 ├── .github/workflows/
-│   ├── ci.yml                  # 静态检查 + 冒烟测试 + 四平台导出
-│   └── deploy-web.yml          # 手动触发：导出 Web 版并发布到 GitHub Pages
+│   └── web.yml                 # main 变更：检查、导出 Web 并发布到 GitHub Pages
 ├── run_tests.ps1              # 一键验证（Windows / PowerShell）
 ├── run_tests.sh               # 一键验证（Linux / macOS / CI）
 ├── tools/
@@ -425,11 +424,9 @@ png 生成 `.import` 边车文件，而 Web 导出的图标 png 就落在 `build
 
 CI 流水线（GitHub Actions）：
 
-- `.github/workflows/ci.yml`（push / PR 自动触发）
-  1. **validate**：调用 `./run_tests.sh --strict`（导入 + 静态门禁 + 冒烟测试），任一项失败即整条流水线失败。
-  2. **export**：依赖 validate 通过，矩阵导出四个平台，校验产物非空后上传为构建产物（保留 14 天）。
-- `.github/workflows/deploy-web.yml`（仅 `workflow_dispatch` 手动触发）：导出 Web 版并发布到 GitHub Pages，
-  需先在仓库设置中启用 Pages（来源选 GitHub Actions）。
+- `.github/workflows/web.yml`（push 到 `main`，也可手动触发）
+  1. **build**：调用 `./run_tests.sh --strict`（导入 + 静态门禁 + 冒烟测试），通过后导出 Web 并校验 `index.html` 非空。任一项失败即不会发布。
+  2. **deploy**：把 Web 产物发布到 GitHub Pages。需先在仓库设置中启用 Pages（来源选 GitHub Actions）。
 
 ## 许可证
 

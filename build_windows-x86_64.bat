@@ -120,8 +120,8 @@ if not exist "%TPL_DIR%\%TPL_NAME%" (
 	echo https://godotengine.org/download/windows and unpack it into:
 	echo     %TPL_DIR%
 	echo.
-	echo You can also let CI build it: .github\workflows\ci.yml exports all four
-	echo platforms and uploads them as build artifacts.
+	echo GitHub Actions (.github\workflows\web.yml) only exports the Web build
+	echo and publishes it to GitHub Pages. Windows still needs this template.
 	set "RC=3"
 	goto :done
 )
