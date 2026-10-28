@@ -149,7 +149,7 @@ if not exist "%TPL_DIR%\%TPL_NAME%" (
 	echo https://godotengine.org/download/windows and unpack it into:
 	echo     %TPL_DIR%
 	echo.
-	echo You can also let CI build it: .github\workflows\deploy-web.yml exports
+	echo You can also let CI build it: .github\workflows\web.yml exports
 	echo the Web build and publishes it to GitHub Pages.
 	set "RC=3"
 	goto :done

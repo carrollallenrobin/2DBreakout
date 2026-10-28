@@ -1,10 +1,15 @@
-name: Deploy Web to GitHub Pages
+name: Web
 
-# 仅手动触发（workflow_dispatch），不参与常规 CI，避免未启用 Pages 的仓库出现红色失败。
+# main 上的变更：静态检查与无头冒烟测试通过后，导出 Web 并发布到 GitHub Pages。
+# 也可手动触发（workflow_dispatch），用于不改代码时重新发布。
 # 前置条件：仓库 Settings -> Pages 启用（Build and deployment 选 "GitHub Actions"）。
+# 使用标准版（非 .NET）Godot 镜像。Godot 的 .NET/Mono 版不支持 Web 导出，
+# 本项目是纯 GDScript，标准版即可。
 # Web 预设关闭了线程支持，产物不依赖 COOP/COEP 响应头，Pages 可直接运行。
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -16,17 +21,22 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  GODOT_IMAGE: barichello/godot-ci:4.7.2-stable
+
 jobs:
   build:
-    name: 导出 Web 版
+    name: 检查并导出 Web
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.7.2-stable
+      image: ${{ env.GODOT_IMAGE }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: 导入资源
-        run: godot --headless --import --path .
+      - name: 静态检查 + 无头冒烟测试
+        run: |
+          chmod +x run_tests.sh
+          ./run_tests.sh --strict
 
       - name: 导出 Web
         run: |
