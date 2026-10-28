@@ -348,7 +348,7 @@ godot --headless --path . --export-release "Web"             build/web/index.htm
 ```
 
 > 注意：Godot 的 **.NET/Mono 版编辑器不支持 Web 导出**。本项目是纯 GDScript，导出请用标准版编辑器；
-> CI 使用的 `barichello/godot-ci:4.7.2-stable` 即标准版镜像。
+> CI 使用的 `barichello/godot-ci:4.7.2` 即标准版镜像。
 
 ### Windows 一键导出
 
