@@ -21,15 +21,12 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
-env:
-  GODOT_IMAGE: barichello/godot-ci:4.7.2-stable
-
 jobs:
   build:
     name: 检查并导出 Web
     runs-on: ubuntu-latest
     container:
-      image: ${{ env.GODOT_IMAGE }}
+      image: barichello/godot-ci:4.7.2-stable
     steps:
       - uses: actions/checkout@v4
 
